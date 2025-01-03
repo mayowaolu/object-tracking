@@ -5,3 +5,4 @@ __pycache__/
 .DS_Store
 data/raw/  # If you don't want to track the raw data with Git (recommended for large datasets)
 models/  # If you don't want to track large model files with Git (you might want to use a model registry instead)
+*.tar
