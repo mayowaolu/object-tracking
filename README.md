@@ -6,27 +6,30 @@ This project implements a real-time object detection and tracking system for vid
 
 ## Project Structure
 Use code with caution.
-Markdown
-object-detection-tracking/
-├── data/
-│ ├── raw/
-│ ├── processed/
-│ └── interim/
-├── models/
-├── notebooks/
-├── scripts/
-├── src/
-│ ├── data_loader/
-│ ├── detection/
-│ ├── tracking/
-│ ├── visualization/
-│ ├── utils/
-│ ├── main.py
-│ ├── config.py
-│ └── evaluate.py
-├── requirements.txt
-├── .gitignore
-└── README.md
+
+    '''
+    object-detection-tracking/
+    ├── data/
+    │   ├── raw/
+    │   ├── processed/
+    │   └── interim/
+    ├── models/
+    ├── notebooks/
+    ├── scripts/
+    ├── src/
+    │   ├── data_loader/
+    │   ├── detection/
+    │   ├── tracking/
+    │   ├── visualization/
+    │   ├── utils/
+    │   ├── main.py
+    │   ├── config.py
+    │   └── evaluate.py
+    ├── requirements.txt
+    ├── .gitignore
+    └── README.md
+    '''
+
 
 ## Getting Started
 
