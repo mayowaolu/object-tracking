@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from cv2 import imread
 from dataclasses import dataclass, field
 from typing import List
+import numpy as np
 
 # Define data structure
 @dataclass
@@ -23,6 +24,7 @@ class ImageData:
     filepath: str
     width: int
     height: int
+    image: np.ndarray = None
     objects: List[ObjectAnnotation] = field(default_factory=list)
 
 
