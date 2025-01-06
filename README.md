@@ -70,7 +70,7 @@ Use code with caution.
 
 ### Dataset
 
-*   The dataset used for this project is \[Dataset Name] (link to dataset if available).
+*   The dataset used for this project is \VOC 2007 and 2012 dataset (link to dataset if available).
 *   Place the dataset in the `data/raw` folder, following the structure:
     ```
     data/
@@ -115,4 +115,4 @@ Use code with caution.
 
 ## License
 
-\Apache License 2.0
+Apache License 2.0
