@@ -3,7 +3,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from cv2 import imread
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import List, Tuple, Union
 import numpy as np
 import logging
 from tqdm import tqdm
@@ -93,7 +93,8 @@ class DatasetPathError(Exception):
     """Custom exception for dataset path related errors"""
     pass
 
-def create_data_splits(dataset_root: str | Path) -> Tuple[List[ImageData], List[ImageData]]:
+
+def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData], List[ImageData]]:
     """
     Loads the Pascal VOC dataset, parses annotations, and creates training and testing data splits.
 
@@ -167,15 +168,16 @@ def create_data_splits(dataset_root: str | Path) -> Tuple[List[ImageData], List[
         if missing_files:
             raise DatasetPathError(f"Missing {len(missing_files)} files, first few: {missing_files[:3]}")
 
-        logging.info()
         # Create data samples and append to list
+        logging.info("Starting to create data samples from the dataset.")
+        
         train_data = []
         for image_path, annotation_path in tqdm(train_paths, desc="Creating train data", ncols=500):
             data_sample = get_data_sample(image_path, annotation_path)
             train_data.append(data_sample)
 
         test_data = []
-        for image_path, annotation_path in tqdm(test_paths, desc="Creating train data", ncols=500):
+        for image_path, annotation_path in tqdm(test_paths, desc="Creating test data", ncols=500):
             data_sample = get_data_sample(image_path, annotation_path)
             test_data.append(data_sample)
 
@@ -183,7 +185,7 @@ def create_data_splits(dataset_root: str | Path) -> Tuple[List[ImageData], List[
 
         return train_data, test_data
     
-    except (ValueError, TypeError) as e:
+    except (ValueError, FileNotFoundError) as e:
         raise ValueError(f"Invalid dataset root path: {dataset_root}") from e
     except (DatasetPathError) as e:
         raise DatasetPathError(f"Error processing dataset: {str(e)}") from e
