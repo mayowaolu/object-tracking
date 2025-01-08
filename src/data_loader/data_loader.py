@@ -170,7 +170,7 @@ def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData],
 
         # Create data samples and append to list
         logging.info("Starting to create data samples from the dataset.")
-        
+
         train_data = []
         for image_path, annotation_path in tqdm(train_paths, desc="Creating train data", ncols=500):
             data_sample = get_data_sample(image_path, annotation_path)
@@ -186,8 +186,8 @@ def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData],
         return train_data, test_data
     
     except (ValueError, FileNotFoundError) as e:
-        raise ValueError(f"Invalid dataset root path: {dataset_root}") from e
-    except (DatasetPathError) as e:
+        raise ValueError(f"Invalid dataset root path: {dataset_root} - {str(e)}") from e
+    except Exception as e:
         raise DatasetPathError(f"Error processing dataset: {str(e)}") from e
        
     
