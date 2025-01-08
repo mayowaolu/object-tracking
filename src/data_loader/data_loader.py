@@ -3,8 +3,9 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from cv2 import imread
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Tuple
 import numpy as np
+import logging
 
 # Define data structure
 @dataclass
@@ -84,3 +85,75 @@ def get_data_sample(image_path: Path, annotation_path: Path) -> ImageData:
     
     except (ValueError, ET.ParseError) as e:
         raise ValueError(f"Error parsing annotation file: {annotation_path} - {e}")
+
+
+
+class DatasetPathError(Exception):
+    """Custom exception for dataset path related errors"""
+    pass
+
+def create_data_splits(dataset_root: str | Path) -> Tuple[List[ImageData], List[ImageData]]:
+    """
+    Loads the Pascal VOC dataset, parses annotations, and creates training and testing data splits.
+
+    Args:
+        dataset_root: The root directory of the Pascal VOC dataset. (data/raw)
+
+    Returns:
+        A tuple containing two lists:
+            - training_data: A list of ImageData objects for training.
+            - testing_data: A list of ImageData objects for testing.
+    """
+    try:
+        dataset_root = Path(dataset_root).resolve()
+
+        # Directory Structure
+        paths = {
+            'voc07': {
+                'root': dataset_root / "VOC2007",
+                'images': dataset_root / "VOC2007" / "JPEGImages",
+                'annotations': dataset_root / "VOC2007" / "Annotations",
+                'splits': dataset_root / "VOC2007" / "ImageSets" / "Main"
+            },
+            
+            'voc12': {
+                'root': dataset_root / "VOC2012",
+                'images': dataset_root / "VOC2012" / "JPEGImages",
+                'annotations': dataset_root / "VOC2012" / "Annotations",
+                'splits': dataset_root / "VOC2012" / "ImageSets" / "Main"
+            }
+        }
+
+        # Directory Validation
+        for year, year_paths in paths.items():
+            for path_type, path in year_paths.items():
+                if not path.exists():
+                    raise DatasetPathError(f"Missing required {path_type} directory for {year}: {path}")
+        
+        # Split Files
+        train_files = [
+            paths['voc07']['splits'] / "trainval.txt",
+            paths['voc12']['splits'] / "trainval.txt"
+        ]
+        test_file = paths['voc07']['splits'] / "test.txt"
+
+        # Validate split files
+        for file in [*train_files, test_file]:
+            if not file.exists():
+                raise DatasetPathError(f"Missing required split file: {file}")
+        
+        # Process Split Files
+        train_paths = []
+        
+
+
+        # Create data samples and append to list
+        train_data = []
+
+        test_data = []
+
+    
+    except:
+        pass
+    
+    return train_data, test_data
