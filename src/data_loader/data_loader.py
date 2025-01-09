@@ -6,8 +6,10 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Union, Optional
 import numpy as np
 import logging
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import pickle
+
+logging.basicConfig(level=logging.INFO, format="{message}", style="{")
 
 # Define data structure
 @dataclass
@@ -175,12 +177,12 @@ def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData],
         logging.info("Starting to create data samples from the dataset.")
 
         train_data = []
-        for image_path, annotation_path in tqdm(train_paths, desc="Creating train data", ncols=500):
+        for image_path, annotation_path in tqdm(train_paths, desc="Creating train data", ncols=100, position=0, leave=True):
             data_sample = get_data_sample(image_path, annotation_path)
             train_data.append(data_sample)
 
         test_data = []
-        for image_path, annotation_path in tqdm(test_paths, desc="Creating test data", ncols=500):
+        for image_path, annotation_path in tqdm(test_paths, desc="Creating test data", ncols=100, position=0, leave=True):
             data_sample = get_data_sample(image_path, annotation_path)
             test_data.append(data_sample)
 
@@ -209,7 +211,7 @@ def load_data(dataset_root: Union[str, Path], save_data: Optional[bool] = False)
     if not dataset_root.exists():
         raise FileNotFoundError(f"Dataset root directory does not exist: {dataset_root}")
 
-    data_dir = dataset_root / "processed"
+    data_dir = dataset_root.parent / "processed"
     train_file = data_dir / "training_data.pkl"
     test_file = data_dir / "test_data.pkl"
 
