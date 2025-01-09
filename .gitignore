@@ -6,3 +6,4 @@ __pycache__/
 data/raw/  
 models/
 *.tar
+src/data_loader/test_dataloader.py
