@@ -107,6 +107,8 @@ def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData],
             - testing_data: A list of ImageData objects for testing.
     """
     try:
+        if not isinstance(dataset_root, (str, Path)):
+            raise ValueError(f"Invalid type for dataset_root: {type(dataset_root)}. Expected str or Path.")
         dataset_root = Path(dataset_root).resolve()
 
         # Directory Structure
@@ -185,7 +187,7 @@ def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData],
 
         return train_data, test_data
     
-    except (ValueError, FileNotFoundError) as e:
+    except ValueError as e:
         raise ValueError(f"Invalid dataset root path: {dataset_root} - {str(e)}") from e
     except Exception as e:
         raise DatasetPathError(f"Error processing dataset: {str(e)}") from e
