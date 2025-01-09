@@ -248,3 +248,30 @@ def load_data(dataset_root: Union[str, Path], save_data: Optional[bool] = False)
                 raise
 
         return train_data, test_data
+
+"""
+main code just for testing file
+
+
+import argparse
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-dr, --data_root_path", help="/data/raw path", type=Path, required=True)
+    parser.add_argument("-sd, --save_data", help="Save processed data to disk", default=False, type=bool)
+    args = parser.parse_args()
+
+    dataset_root = args.data_root_path
+    save_data = args.save_data
+    
+    train_data, test_data = load_data(dataset_root, save_data)
+    print("")
+    print(f"Length of train data: {len(train_data)} and test data: {len(test_data)}")
+    print(f"First train data: filename={train_data[0].filename}, num_objects={len(train_data[0].objects)}")
+    print(f"First test data: filename={test_data[0].filename}, num_objects={len(test_data[0].objects)}")
+
+    return
+
+if __name__ == "__main__":
+    main()
+
+"""
