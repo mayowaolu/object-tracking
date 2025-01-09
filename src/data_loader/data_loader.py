@@ -3,10 +3,11 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from cv2 import imread
 from dataclasses import dataclass, field
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Optional
 import numpy as np
 import logging
 from tqdm import tqdm
+import pickle
 
 # Define data structure
 @dataclass
@@ -187,9 +188,61 @@ def create_data_splits(dataset_root: Union[str, Path]) -> Tuple[List[ImageData],
 
         return train_data, test_data
     
-    except ValueError as e:
+    except (ValueError, FileNotFoundError) as e:
         raise ValueError(f"Invalid dataset root path: {dataset_root} - {str(e)}") from e
     except Exception as e:
         raise DatasetPathError(f"Error processing dataset: {str(e)}") from e
-       
-    
+
+def load_data(dataset_root: Union[str, Path], save_data: Optional[bool] = False) -> Tuple[List[ImageData], List[ImageData]]:
+    """
+    Load the Pascal VOC dataset.
+
+    Args:
+        dataset_root (Union[str, Path]): The root directory of the dataset.
+        save_data (Optional[bool]): If True, save the loaded data to disk. Defaults to False.
+
+    Returns:
+        Tuple[List[ImageData], List[ImageData]]: A tuple containing two lists of ImageData objects.
+            The first list contains the training data, and the second list contains the validation data.
+    """
+    dataset_root = Path(dataset_root).resolve()
+    if not dataset_root.exists():
+        raise FileNotFoundError(f"Dataset root directory does not exist: {dataset_root}")
+
+    data_dir = dataset_root / "processed"
+    train_file = data_dir / "training_data.pkl"
+    test_file = data_dir / "test_data.pkl"
+
+    if train_file.exists() and test_file.exists():
+        logging.info("Loading data from preprocessed files...")
+
+        with open(train_file, "rb") as f:
+            train_data = pickle.load(f)
+        with open(test_file, "rb") as f:
+            test_data = pickle.load(f)
+
+        logging.info("Data loaded.")
+
+        return train_data, test_data
+    else:
+        logging.info("Processing raw data..")
+        train_data, test_data = create_data_splits(dataset_root)
+
+        if save_data:
+            try:
+                data_dir.mkdir(exist_ok=True)
+            except OSError as e:
+                logging.error(f"Failed to create directory {data_dir}: {e}")
+                raise
+            
+            try:
+                with open(train_file, "wb") as f:
+                    pickle.dump(train_data, f)
+                with open(test_file, "wb") as f:
+                    pickle.dump(test_data, f)
+                logging.info(f"Processed data saved to {str(data_dir)}")
+            except IOError as e:
+                logging.error(f"Error saving processed data: {e}")
+                raise
+
+        return train_data, test_data
