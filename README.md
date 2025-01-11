@@ -5,7 +5,6 @@
 This project implements a real-time object detection and tracking system for video surveillance applications. The system is capable of detecting multiple objects in a live video stream and tracking them across frames, maintaining their identities even with occlusions or temporary disappearances.
 
 ## Project Structure
-Use code with caution.
 
     '''
     object-detection-tracking/
