@@ -1,33 +1,38 @@
+import torch
+import torch.nn as nn
 from abc import ABC, abstractmethod
 
-class BaseDetector(ABC):
-    @abstractmethod
-    def train(self, dataloader, epochs):
-        """
-        Train the detector using the provided dataloader for a given number of epochs.
+class BaseDetector(ABC, nn.Module):
 
-        Pareameters:
-        dataloader: DataLoader object that provides the training data.
-        epochs: int, number of epochs to train the model.
+    @abstractmethod
+    def __init__(self, config: "ModelConfig"):
+        super().__init__()
+        self.config = config
+
+    @abstractmethod
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Defines forward pass of the model
+
+        Args:
+            x: Input tensor
+        
+        Returns:
+            Output tensor.
+
         """
         pass
 
     @abstractmethod
-    def evaluate(self, dataloader):
+    def calculate_loss(self, predictions: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         """
-        Evaluate the model using the provided dataloader.
+        Calculates the loss given predictions and ground truth targets.
 
-        Parameters:
-        dataloader (DataLoader): The dataloader providing the evaluation data.
-        """
-        pass
+        Args:
+            predictions: Model predictions.
+            targets: Ground truth targets.
 
-    @abstractmethod
-    def inference(self, inputs):
-        """
-        Perform inference on the given inputs.
-
-        Parameters:
-        inputs: The input data for which inference needs to be performed.
+        Returns:
+            Loss tensor.
         """
         pass
