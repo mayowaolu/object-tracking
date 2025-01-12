@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from abc import ABC, abstractmethod
+from config import ModelConfig
 
 class BaseDetector(ABC, nn.Module):
 
