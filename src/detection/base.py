@@ -25,7 +25,7 @@ class BaseDetector(ABC, nn.Module):
         pass
 
     @abstractmethod
-    def calculate_loss(self, predictions: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+    def predict(self, predictions: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         """
         Calculates the loss given predictions and ground truth targets.
 
@@ -35,5 +35,17 @@ class BaseDetector(ABC, nn.Module):
 
         Returns:
             Loss tensor.
+        """
+        pass
+
+    def load_weights(self, filepath: str) -> None:
+        """
+        Load pre-trained weights
+        """
+        pass
+
+    def save_weights(self, filepath: str):
+        """
+        Save the model's weights
         """
         pass
