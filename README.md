@@ -1,4 +1,4 @@
-# Real-time Object Detection and Tracking for Video Surveillance
+# Simple Real-time Object Detection and Tracking
 
 ## Overview
 
@@ -95,20 +95,9 @@ This project implements a real-time object detection and tracking system for vid
 
 ## Model and Algorithms
 
-*   **Object Detection:** \[Name of the object detection model used] (e.g., YOLOv5, SSD, Faster R-CNN)
-*   **Object Tracking:** \[Name of the tracking algorithm used] (e.g., DeepSORT, Kalman Filter)
+*   **Object Detection:** \YOLO (with a pretrained CNN e.g ResNet as the backbone), Also plan to implement some Vision Transformer based model
+*   **Object Tracking:** \
 
-## Results
-
-\[Placeholder for presenting the results of your project. You can include tables, graphs, and images to showcase the performance of your system. For example, you might show mAP scores for object detection and MOTA/MOTP/IDF1 scores for tracking.]
-
-## Future Work
-
-*   \[List of potential future improvements or extensions to the project. For example:]
-    *   Integrate a natural language interface for controlling the system.
-    *   Implement anomaly detection to flag unusual object behavior.
-    *   Add support for different object classes and tracking scenarios.
-    *   Improve the speed and efficiency of the system for real-time performance on edge devices.
 
 
 
